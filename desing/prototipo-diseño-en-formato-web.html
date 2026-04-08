@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MeteoLens - Atmospheric Precision</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+          tailwind.config = {
+            darkMode: "class",
+            theme: {
+              extend: {
+                "colors": {
+                        "surface-container-highest": "#e0e3e6",
+                        "secondary": "#2d6482",
+                        "primary-fixed-dim": "#a9c7ff",
+                        "tertiary-fixed-dim": "#ffba38",
+                        "primary-fixed": "#d6e3ff",
+                        "on-tertiary-fixed-variant": "#604100",
+                        "on-secondary-fixed-variant": "#0a4c69",
+                        "on-tertiary-fixed": "#281900",
+                        "on-error-container": "#93000a",
+                        "on-background": "#1c2126",
+                        "on-surface-variant": "#5a636b",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-container": "#805800",
+                        "inverse-surface": "#2d3133",
+                        "on-secondary-container": "#29617f",
+                        "surface-container-low": "#f8fafc",
+                        "primary": "#00478d",
+                        "on-tertiary": "#ffffff",
+                        "surface-bright": "#fcfdfe",
+                        "surface-tint": "#005db6",
+                        "surface-container": "#f1f4f9",
+                        "on-surface": "#1c2126",
+                        "secondary-container": "#a7dbfe",
+                        "background": "#f0f4f8",
+                        "surface-variant": "#e0e3e6",
+                        "inverse-primary": "#a9c7ff",
+                        "on-error": "#ffffff",
+                        "surface": "#f0f4f8",
+                        "surface-dim": "#d8dadd",
+                        "on-primary-fixed-variant": "#00468c",
+                        "on-primary-fixed": "#001b3d",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed": "#ffdeac",
+                        "outline": "#727783",
+                        "secondary-fixed-dim": "#99cdf0",
+                        "tertiary": "#614200",
+                        "surface-container-high": "#e6e8eb",
+                        "on-secondary": "#ffffff",
+                        "secondary-fixed": "#c6e7ff",
+                        "on-primary": "#ffffff",
+                        "on-primary-container": "#c8daff",
+                        "on-secondary-fixed": "#001e2d",
+                        "primary-container": "#005eb8",
+                        "on-tertiary-container": "#ffd38f",
+                        "error-container": "#ffdad6",
+                        "outline-variant": "#c2c6d4",
+                        "inverse-on-surface": "#eff1f4"
+                },
+                "borderRadius": {
+                        "DEFAULT": "4px",
+                        "lg": "8px",
+                        "xl": "12px",
+                        "2xl": "24px",
+                        "full": "9999px"
+                },
+                "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                }
+              },
+            },
+          }
+        </script>
+<style type="text/tailwindcss">
+        html { font-size: 10px; }
+        body { font-family: 'Inter', sans-serif; background-color: #f0f4f8; }
+        .glass-card { background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.4); }
+        .material-symbols-outlined { font-size: 2.4rem; vertical-align: middle; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="text-on-surface bg-background font-body selection:bg-primary-fixed selection:text-on-primary-fixed antialiased">
+<header class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-xl border-b border-slate-200/60 shadow-sm font-manrope">
+<div class="flex justify-between items-center h-20 px-8 max-w-[1600px] mx-auto">
+<div class="flex items-center gap-12">
+<h1 class="text-3xl font-extrabold tracking-tight text-primary">MeteoLens</h1>
+<div class="hidden md:flex relative items-center">
+<span class="material-symbols-outlined absolute left-4 text-slate-400">search</span>
+<input class="bg-slate-100/80 text-on-surface placeholder-slate-400 border border-slate-200 rounded-2xl pl-12 pr-4 py-2.5 w-96 focus:ring-2 focus:ring-blue-500/50 transition-all outline-none" placeholder="Buscar ciudad..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="p-2.5 text-slate-500 hover:bg-slate-100 transition-colors rounded-full">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2.5 text-slate-500 hover:bg-slate-100 transition-colors rounded-full">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="h-11 w-11 rounded-full overflow-hidden ml-2 ring-2 ring-blue-500/10">
+<img alt="Avatar de usuario" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-FV7_p-h3PgTdesLzG2_s2xve1jjQVHK0cBEjazFGeNsfWuxSVS0pArTVul-rfKHz8I2RATXsAMxnyi2pw1YfzGQNJc3kW90OX-WlR0u47aXKxhWT_JwAit1hGvwFSDPXrEjsZ-vlK2G1p2eYESaImWBAUmduaZlC6eV3_WjbxlipJHUPUCdukx_zjciwqbZwEnuICg0LbWa-LyOXutKIBBOnelh1XtuJoc241McQ1JxRRiaLJabshzrPj1Q7vH4nmVIDdY50gn4"/>
+</div>
+</div>
+</div>
+</header>
+<main class="pt-32 pb-16 px-8 min-h-screen">
+<div class="max-w-[1600px] mx-auto space-y-12">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+<section class="lg:col-span-8 relative overflow-hidden rounded-[3.2rem] bg-gradient-to-br from-[#0052D4] via-[#4364F7] to-[#6FB1FC] text-white p-16 flex flex-col justify-between min-h-[480px] shadow-2xl shadow-blue-500/20">
+<div class="absolute top-0 right-0 w-[500px] h-[500px] bg-white/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
+<div class="relative z-10 flex justify-between items-start">
+<div>
+<h2 class="text-5xl md:text-6xl font-extrabold font-headline tracking-tight mb-3">Madrid, España</h2>
+<p class="text-2xl text-blue-50/80 font-medium">Lunes, 24 de Mayo</p>
+</div>
+<div class="bg-white/10 backdrop-blur-md border border-white/20 px-6 py-3 rounded-full text-sm font-semibold flex items-center gap-3">
+<span class="w-2.5 h-2.5 bg-green-400 rounded-full"></span>
+                        Actualizado hace 5 min
+                    </div>
+</div>
+<div class="relative z-10 flex flex-col md:flex-row items-center md:items-end gap-10 mt-12">
+<span class="text-[14rem] font-extrabold font-headline leading-none tracking-tighter">22°</span>
+<div class="mb-8">
+<span class="material-symbols-outlined text-9xl text-yellow-300" style="font-variation-settings: 'FILL' 1;">sunny</span>
+<p class="text-4xl font-semibold mt-4">Soleado</p>
+</div>
+</div>
+<div class="relative z-10 grid grid-cols-3 gap-10 pt-10 mt-10 border-t border-white/10">
+<div class="flex items-center gap-5">
+<div class="bg-white/10 p-4 rounded-2xl backdrop-blur-md">
+<span class="material-symbols-outlined text-blue-100" data-icon="humidity_percentage">humidity_percentage</span>
+</div>
+<div>
+<p class="text-blue-100/70 text-sm font-medium uppercase tracking-widest">Humedad</p>
+<p class="text-2xl font-bold">45%</p>
+</div>
+</div>
+<div class="flex items-center gap-5">
+<div class="bg-white/10 p-4 rounded-2xl backdrop-blur-md">
+<span class="material-symbols-outlined text-blue-100" data-icon="air">air</span>
+</div>
+<div>
+<p class="text-blue-100/70 text-sm font-medium uppercase tracking-widest">Viento</p>
+<p class="text-2xl font-bold">12 km/h</p>
+</div>
+</div>
+<div class="flex items-center gap-5">
+<div class="bg-white/10 p-4 rounded-2xl backdrop-blur-md">
+<span class="material-symbols-outlined text-blue-100" data-icon="thermostat">thermostat</span>
+</div>
+<div>
+<p class="text-blue-100/70 text-sm font-medium uppercase tracking-widest">Sensación</p>
+<p class="text-2xl font-bold">24°</p>
+</div>
+</div>
+</div>
+</section>
+<aside class="lg:col-span-4 space-y-8">
+<div class="flex items-center justify-between">
+<h3 class="text-3xl font-bold font-headline text-on-surface">Ubicaciones</h3>
+<button class="bg-primary text-white px-8 py-3.5 rounded-2xl font-bold text-sm hover:opacity-90 transition-all active:scale-95 flex items-center gap-2 shadow-lg shadow-blue-500/20">
+<span class="material-symbols-outlined !text-xl" data-icon="add">add</span>
+                        Añadir
+                    </button>
+</div>
+<div class="space-y-5">
+<div class="glass-card p-8 rounded-3xl flex justify-between items-center group cursor-pointer hover:bg-white transition-all shadow-sm">
+<div class="flex items-center gap-5">
+<span class="material-symbols-outlined text-blue-600" style="font-variation-settings: 'FILL' 1;">cloud</span>
+<div>
+<p class="font-bold text-xl">Barcelona</p>
+<p class="text-on-surface-variant text-sm">Nublado</p>
+</div>
+</div>
+<p class="text-4xl font-headline font-extrabold text-on-surface">19°</p>
+</div>
+<div class="glass-card p-8 rounded-3xl flex justify-between items-center group cursor-pointer hover:bg-white transition-all shadow-sm">
+<div class="flex items-center gap-5">
+<span class="material-symbols-outlined text-yellow-500" style="font-variation-settings: 'FILL' 1;">sunny</span>
+<div>
+<p class="font-bold text-xl">Sevilla</p>
+<p class="text-on-surface-variant text-sm">Despejado</p>
+</div>
+</div>
+<p class="text-4xl font-headline font-extrabold text-on-surface">31°</p>
+</div>
+<div class="glass-card p-8 rounded-3xl flex justify-between items-center group cursor-pointer hover:bg-white transition-all shadow-sm">
+<div class="flex items-center gap-5">
+<span class="material-symbols-outlined text-blue-400" style="font-variation-settings: 'FILL' 1;">rainy</span>
+<div>
+<p class="font-bold text-xl">Bilbao</p>
+<p class="text-on-surface-variant text-sm">Lluvia leve</p>
+</div>
+</div>
+<p class="text-4xl font-headline font-extrabold text-on-surface">16°</p>
+</div>
+</div>
+<div class="rounded-3xl overflow-hidden glass-card aspect-video relative group cursor-crosshair shadow-lg">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-location="Madrid" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3XOUdngHJS-lVLyRqMAuUyJ_b-lZ2YhImyZZBeaJ7dDCUKs2HQeO5dubcZwcO-KrE19NFyAUIXcj8qTb-Mq17_70alRUZHIBav5FCPfNTcGu1o6ck5vK5VtbM-IxdssMrKYWmRf07g2yHcfDpYtK-pTCCH7e7F35957DJYyyGXczdhzbVZrcsNlbGOPnrwr72qh8eoxTwcGVZWqYHj-ns696NNkb6y1kuVW-uf9QH62fcGLx8UQAvyewYW49wbsJv6icXsx5b_ao"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+<div class="absolute bottom-6 left-6 text-white">
+<p class="font-bold text-base flex items-center gap-2">
+<span class="material-symbols-outlined text-red-500 !text-xl" style="font-variation-settings: 'FILL' 1;">location_on</span>
+                            Radar de Madrid
+                        </p>
+</div>
+<div class="absolute top-6 right-6 bg-white/20 backdrop-blur-md p-2 rounded-xl text-white">
+<span class="material-symbols-outlined" data-icon="fullscreen">fullscreen</span>
+</div>
+</div>
+</aside>
+</div>
+<section class="space-y-8">
+<div class="flex items-center justify-between">
+<h3 class="text-3xl font-bold font-headline text-on-surface">Pronóstico 24 Horas</h3>
+<div class="flex gap-3 bg-slate-200/50 p-1.5 rounded-2xl">
+<div class="bg-white px-5 py-2 rounded-xl shadow-sm text-sm font-bold text-primary">Hoy</div>
+<div class="px-5 py-2 rounded-xl text-sm font-semibold text-on-surface-variant hover:bg-white/50 cursor-pointer">Mañana</div>
+</div>
+</div>
+<div class="flex gap-8 overflow-x-auto pb-6 hide-scrollbar">
+<div class="min-w-[130px] flex-shrink-0 glass-card p-8 rounded-[2.5rem] flex flex-col items-center gap-6 hover:bg-white transition-all shadow-sm">
+<p class="text-base font-semibold text-on-surface-variant">14:00</p>
+<span class="material-symbols-outlined text-yellow-500 text-5xl" style="font-variation-settings: 'FILL' 1;">sunny</span>
+<p class="text-3xl font-extrabold font-headline">22°</p>
+</div>
+<div class="min-w-[130px] flex-shrink-0 glass-card p-8 rounded-[2.5rem] flex flex-col items-center gap-6 hover:bg-white transition-all shadow-sm">
+<p class="text-base font-semibold text-on-surface-variant">15:00</p>
+<span class="material-symbols-outlined text-yellow-500 text-5xl" style="font-variation-settings: 'FILL' 1;">sunny</span>
+<p class="text-3xl font-extrabold font-headline">23°</p>
+</div>
+<div class="min-w-[130px] flex-shrink-0 glass-card p-8 rounded-[2.5rem] flex flex-col items-center gap-6 hover:bg-white transition-all shadow-sm">
+<p class="text-base font-semibold text-on-surface-variant">16:00</p>
+<span class="material-symbols-outlined text-yellow-500 text-5xl" style="font-variation-settings: 'FILL' 1;">sunny</span>
+<p class="text-3xl font-extrabold font-headline">23°</p>
+</div>
+<div class="min-w-[130px] flex-shrink-0 bg-white border-2 border-primary/10 p-8 rounded-[2.5rem] flex flex-col items-center gap-6 shadow-md ring-4 ring-primary/5">
+<p class="text-base font-extrabold text-primary">17:00</p>
+<span class="material-symbols-outlined text-blue-400 text-5xl" style="font-variation-settings: 'FILL' 1;">partly_cloudy_day</span>
+<p class="text-3xl font-extrabold font-headline">21°</p>
+</div>
+<div class="min-w-[130px] flex-shrink-0 glass-card p-8 rounded-[2.5rem] flex flex-col items-center gap-6 hover:bg-white transition-all shadow-sm">
+<p class="text-base font-semibold text-on-surface-variant">18:00</p>
+<span class="material-symbols-outlined text-slate-400 text-5xl" style="font-variation-settings: 'FILL' 1;">cloud</span>
+<p class="text-3xl font-extrabold font-headline">19°</p>
+</div>
+<div class="min-w-[130px] flex-shrink-0 glass-card p-8 rounded-[2.5rem] flex flex-col items-center gap-6 hover:bg-white transition-all shadow-sm">
+<p class="text-base font-semibold text-on-surface-variant">19:00</p>
+<span class="material-symbols-outlined text-indigo-400 text-5xl" style="font-variation-settings: 'FILL' 1;">bedtime</span>
+<p class="text-3xl font-extrabold font-headline">18°</p>
+</div>
+<div class="min-w-[130px] flex-shrink-0 glass-card p-8 rounded-[2.5rem] flex flex-col items-center gap-6 hover:bg-white transition-all shadow-sm">
+<p class="text-base font-semibold text-on-surface-variant">20:00</p>
+<span class="material-symbols-outlined text-indigo-400 text-5xl" style="font-variation-settings: 'FILL' 1;">bedtime</span>
+<p class="text-3xl font-extrabold font-headline">17°</p>
+</div>
+<div class="min-w-[130px] flex-shrink-0 glass-card p-8 rounded-[2.5rem] flex flex-col items-center gap-6 hover:bg-white transition-all shadow-sm">
+<p class="text-base font-semibold text-on-surface-variant">21:00</p>
+<span class="material-symbols-outlined text-indigo-400 text-5xl" style="font-variation-settings: 'FILL' 1;">bedtime</span>
+<p class="text-3xl font-extrabold font-headline">16°</p>
+</div>
+<div class="min-w-[130px] flex-shrink-0 glass-card p-8 rounded-[2.5rem] flex flex-col items-center gap-6 hover:bg-white transition-all shadow-sm">
+<p class="text-base font-semibold text-on-surface-variant">22:00</p>
+<span class="material-symbols-outlined text-indigo-400 text-5xl" style="font-variation-settings: 'FILL' 1;">bedtime</span>
+<p class="text-3xl font-extrabold font-headline">15°</p>
+</div>
+</div>
+</section>
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+<div class="glass-card p-10 rounded-[2.5rem] space-y-6 shadow-sm border border-white">
+<div class="flex items-center justify-between">
+<p class="text-on-surface-variant font-bold text-xs uppercase tracking-[0.2em]">Índice UV</p>
+<span class="material-symbols-outlined text-yellow-500" data-icon="wb_sunny">wb_sunny</span>
+</div>
+<p class="text-5xl font-extrabold font-headline">4 <span class="text-xl font-medium text-on-surface-variant ml-2">Moderado</span></p>
+<div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
+<div class="bg-gradient-to-r from-green-400 to-yellow-400 h-full w-[40%]"></div>
+</div>
+</div>
+<div class="glass-card p-10 rounded-[2.5rem] space-y-6 shadow-sm border border-white">
+<div class="flex items-center justify-between">
+<p class="text-on-surface-variant font-bold text-xs uppercase tracking-[0.2em]">Amanecer</p>
+<span class="material-symbols-outlined text-orange-400" data-icon="wb_twilight">wb_twilight</span>
+</div>
+<p class="text-5xl font-extrabold font-headline">06:42</p>
+<p class="text-on-surface-variant text-base">Atardecer: 21:14</p>
+</div>
+<div class="glass-card p-10 rounded-[2.5rem] space-y-6 shadow-sm border border-white">
+<div class="flex items-center justify-between">
+<p class="text-on-surface-variant font-bold text-xs uppercase tracking-[0.2em]">Humedad</p>
+<span class="material-symbols-outlined text-blue-500" data-icon="water_drop">water_drop</span>
+</div>
+<p class="text-5xl font-extrabold font-headline">45%</p>
+<p class="text-on-surface-variant text-base">Punto de rocío: 12°</p>
+</div>
+<div class="glass-card p-10 rounded-[2.5rem] space-y-6 shadow-sm border border-white">
+<div class="flex items-center justify-between">
+<p class="text-on-surface-variant font-bold text-xs uppercase tracking-[0.2em]">Visibilidad</p>
+<span class="material-symbols-outlined text-slate-400" data-icon="visibility">visibility</span>
+</div>
+<p class="text-5xl font-extrabold font-headline">10 <span class="text-xl font-medium text-on-surface-variant ml-2">km</span></p>
+<p class="text-on-surface-variant text-base">Condición excelente</p>
+</div>
+</section>
+</div>
+</main>
+
+</body></html>
