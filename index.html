@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>MeteoLens - Aplicación del Tiempo</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/styles.css"/>
+</head>
+<body>
+    <!-- Encabezado con buscador -->
+    <header class="header">
+        <div class="header-container">
+            <div class="header-brand-search">
+                <h1 class="brand-title">MeteoLens</h1>
+                <div class="search-container">
+                    <span class="material-symbols-outlined search-icon">search</span>
+                    <!-- Input de búsqueda -->
+                    <input id="searchInput" class="search-input" placeholder="Buscar ciudad..." type="text" autocomplete="off" />
+                    <!-- Sugerencias de búsqueda -->
+                    <ul id="searchSuggestions" class="search-suggestions hidden"></ul>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="action-btn">
+                    <span class="material-symbols-outlined">notifications</span>
+                </button>
+                <button class="action-btn">
+                    <span class="material-symbols-outlined">settings</span>
+                </button>
+                <div class="avatar-container">
+                    <img alt="Avatar de usuario" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-FV7_p-h3PgTdesLzG2_s2xve1jjQVHK0cBEjazFGeNsfWuxSVS0pArTVul-rfKHz8I2RATXsAMxnyi2pw1YfzGQNJc3kW90OX-WlR0u47aXKxhWT_JwAit1hGvwFSDPXrEjsZ-vlK2G1p2eYESaImWBAUmduaZlC6eV3_WjbxlipJHUPUCdukx_zjciwqbZwEnuICg0LbWa-LyOXutKIBBOnelh1XtuJoc241McQ1JxRRiaLJabshzrPj1Q7vH4nmVIDdY50gn4"/>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main class="main-container">
+        
+        <!-- Mensajes globales (ej. ciudad no encontrada) -->
+        <div id="globalMessageContainer" class="global-message"></div>
+
+        <div class="dashboard-grid">
+            
+            <!-- Widget Principal del Clima Actual -->
+            <section class="current-weather">
+                <div class="bg-decoration"></div>
+                <div id="currentWeatherContainer" class="current-weather-content">
+                    <!-- Aquí se renderiza vía JS el clima actual -->
+                    <div class="placeholder-text">Busca o selecciona una ciudad...</div>
+                </div>
+            </section>
+
+            <!-- Barra Lateral Ubicaciones y Favoritos -->
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <h3 class="section-title">Ubicaciones</h3>
+                    <button id="addLocationBtn" class="btn-primary">
+                        <span class="material-symbols-outlined btn-icon">add</span>
+                        Añadir
+                    </button>
+                </div>
+                
+                <div id="savedLocationsContainer" class="saved-locations">
+                    <!-- Lista de ciudades guardadas irá aquí -->
+                </div>
+
+                <div id="radarCard" class="radar-card" style="cursor: pointer;">
+                    <img class="radar-img" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3XOUdngHJS-lVLyRqMAuUyJ_b-lZ2YhImyZZBeaJ7dDCUKs2HQeO5dubcZwcO-KrE19NFyAUIXcj8qTb-Mq17_70alRUZHIBav5FCPfNTcGu1o6ck5vK5VtbM-IxdssMrKYWmRf07g2yHcfDpYtK-pTCCH7e7F35957DJYyyGXczdhzbVZrcsNlbGOPnrwr72qh8eoxTwcGVZWqYHj-ns696NNkb6y1kuVW-uf9QH62fcGLx8UQAvyewYW49wbsJv6icXsx5b_ao"/>
+                    <div class="radar-overlay"></div>
+                    <div class="radar-text">
+                        <p class="radar-label">
+                            <span class="material-symbols-outlined icon-red">location_on</span>
+                            <span id="radarLabelText">Radar Local</span>
+                        </p>
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+        <!-- Sección de Pronóstico por Horas -->
+        <section class="forecast-section">
+            <div class="forecast-header">
+                <h3 class="section-title">Pronóstico 24 Horas</h3>
+                <div class="forecast-tabs">
+                    <div class="tab active">Hoy</div>
+                    <div class="tab hidden">Mañana</div>
+                </div>
+            </div>
+            
+            <div id="hourlyForecastContainer" class="forecast-scroll hide-scrollbar">
+                <!-- Items de pronóstico por horas agregados por JS -->
+            </div>
+        </section>
+
+        <!-- Bloques adiciones (Humedad, Viento, etc. Extras) -->
+        <section id="extraDetailsContainer" class="extra-details-grid">
+            <!-- Items de detalles extra agregados por JS -->
+        </section>
+
+    </main>
+
+    <!-- Modal buscador para ciudades / Localidades -->
+    <div id="locationsModal" class="modal hidden">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Gestionar Localidades</h2>
+                <button id="closeModalBtn" class="close-btn"><span class="material-symbols-outlined">close</span></button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-search">
+                     <span class="material-symbols-outlined search-icon">search</span>
+                     <input id="modalSearchInput" class="search-input" placeholder="Buscar localidad para guardar..." type="text" autocomplete="off" />
+                     <ul id="modalSearchSuggestions" class="search-suggestions hidden"></ul>
+                </div>
+                <div id="modalSavedLocations" class="modal-saved-list">
+                    <!-- Locaciones en listado -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/storage.js" defer></script>
+    <script src="js/api.js" defer></script>
+    <script src="js/ui.js" defer></script>
+    <script src="js/main.js" defer></script>
+</body>
+</html>
